@@ -119,6 +119,12 @@
             animation: titleGlow 3s ease-in-out infinite;
         }
 
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+        }
+
         @keyframes titleGlow {
             0%, 100% { filter: brightness(1); }
             50% { filter: brightness(1.2); }
@@ -178,6 +184,16 @@
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
+            max-height: 1000px;
+        }
+
+        .config-section.collapsed {
+            max-height: 60px;
+            padding: 15px 25px;
+        }
+
+        .config-section.collapsed .config-content {
+            display: none;
         }
 
         .config-section::before {
@@ -856,67 +872,74 @@
             </div>
         </div>
 
-        <!-- Configuration Section -->
-        <div class="config-section" id="configSection">
-            <h2 style="margin-bottom: 25px; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-                MQTT Connection Configuration
-            </h2>
-            
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3 style="color: var(--text-secondary); font-size: 1em;">Quick Setup Guide</h3>
-                <button class="btn" style="padding: 8px 16px; font-size: 0.85em;" onclick="toggleInfoBox()">
-                    <span id="infoToggleText">Show Guide</span>
+        <!-- Configuration Section (Initially Collapsed) -->
+        <div class="config-section collapsed" id="configSection">
+            <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleConfigSection()">
+                <h2 style="margin: 0; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    MQTT Connection Configuration
+                </h2>
+                <button class="btn" style="padding: 8px 16px; font-size: 0.85em;">
+                    <span id="configToggleText">Show</span>
                 </button>
             </div>
             
-            <div class="info-box collapsed" id="infoBox">
-                <h3 style="color: #4facfe; margin-bottom: 15px;">📋 Setup Instructions:</h3>
-                <ul style="list-style: none; padding: 0; line-height: 1.8;">
-                    <li style="margin-bottom: 8px;">
-                        <span style="color: #4facfe;">→</span> Enter your MQTT broker's WebSocket URL (ws:// or wss://)
-                    </li>
-                    <li style="margin-bottom: 8px;">
-                        <span style="color: #4facfe;">→</span> Use your public IP or domain name for remote access
-                    </li>
-                    <li style="margin-bottom: 8px;">
-                        <span style="color: #4facfe;">→</span> Default WebSocket port is usually 9001
-                    </li>
-                    <li style="margin-bottom: 8px;">
-                        <span style="color: #4facfe;">→</span> Leave username/password empty if not required
-                    </li>
-                </ul>
+            <div class="config-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0;">
+                    <h3 style="color: var(--text-secondary); font-size: 1em;">Quick Setup Guide</h3>
+                    <button class="btn" style="padding: 8px 16px; font-size: 0.85em;" onclick="toggleInfoBox()">
+                        <span id="infoToggleText">Show Guide</span>
+                    </button>
+                </div>
                 
-                <h3 style="color: #4facfe; margin: 20px 0 15px 0;">🔗 Example URLs:</h3>
-                <div style="background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 10px; font-family: monospace; font-size: 0.85em;">
-                    <div style="margin-bottom: 5px;">Local: ws://192.168.0.100:9001</div>
-                    <div style="margin-bottom: 5px;">Public IP: ws://122.54.XXX.XXX:9001</div>
-                    <div style="margin-bottom: 5px;">ngrok: wss://abc123.ngrok-free.app</div>
-                    <div>Cloudflare: wss://mqtt.yourdomain.com</div>
+                <div class="info-box collapsed" id="infoBox">
+                    <h3 style="color: #4facfe; margin-bottom: 15px;">📋 Setup Instructions:</h3>
+                    <ul style="list-style: none; padding: 0; line-height: 1.8;">
+                        <li style="margin-bottom: 8px;">
+                            <span style="color: #4facfe;">→</span> Enter your MQTT broker's WebSocket URL (ws:// or wss://)
+                        </li>
+                        <li style="margin-bottom: 8px;">
+                            <span style="color: #4facfe;">→</span> Use your public IP or domain name for remote access
+                        </li>
+                        <li style="margin-bottom: 8px;">
+                            <span style="color: #4facfe;">→</span> Default WebSocket port is usually 9001
+                        </li>
+                        <li style="margin-bottom: 8px;">
+                            <span style="color: #4facfe;">→</span> Leave username/password empty if not required
+                        </li>
+                    </ul>
+                    
+                    <h3 style="color: #4facfe; margin: 20px 0 15px 0;">🔗 Example URLs:</h3>
+                    <div style="background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 10px; font-family: monospace; font-size: 0.85em;">
+                        <div style="margin-bottom: 5px;">Local: ws://192.168.0.100:9001</div>
+                        <div style="margin-bottom: 5px;">Public IP: ws://122.54.XXX.XXX:9001</div>
+                        <div style="margin-bottom: 5px;">ngrok: wss://abc123.ngrok-free.app</div>
+                        <div>Cloudflare: wss://mqtt.yourdomain.com</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="config-grid">
-                <div class="config-item">
-                    <label for="brokerUrl">MQTT Broker WebSocket URL</label>
-                    <input type="text" id="brokerUrl" placeholder="ws://your-ip-address:9001" value="">
+                <div class="config-grid">
+                    <div class="config-item">
+                        <label for="brokerUrl">MQTT Broker WebSocket URL</label>
+                        <input type="text" id="brokerUrl" placeholder="ws://your-ip-address:9001" value="">
+                    </div>
+                    <div class="config-item">
+                        <label for="mqttTopic">MQTT Topic</label>
+                        <input type="text" id="mqttTopic" value="application/1/device/9fb27692fb0c2381/event/up">
+                    </div>
+                    <div class="config-item">
+                        <label for="mqttUsername">Username (optional)</label>
+                        <input type="text" id="mqttUsername" placeholder="Leave empty if not required">
+                    </div>
+                    <div class="config-item">
+                        <label for="mqttPassword">Password (optional)</label>
+                        <input type="password" id="mqttPassword" placeholder="Leave empty if not required">
+                    </div>
                 </div>
-                <div class="config-item">
-                    <label for="mqttTopic">MQTT Topic</label>
-                    <input type="text" id="mqttTopic" value="application/1/device/9fb27692fb0c2381/event/up">
-                </div>
-                <div class="config-item">
-                    <label for="mqttUsername">Username (optional)</label>
-                    <input type="text" id="mqttUsername" placeholder="Leave empty if not required">
-                </div>
-                <div class="config-item">
-                    <label for="mqttPassword">Password (optional)</label>
-                    <input type="password" id="mqttPassword" placeholder="Leave empty if not required">
-                </div>
-            </div>
 
-            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                <button class="btn" onclick="connectMQTT()">Connect to Broker</button>
-                <button class="btn disconnect" onclick="disconnectMQTT()" style="display: none;" id="disconnectBtn">Disconnect</button>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
+                    <button class="btn" onclick="connectMQTT()">Connect to Broker</button>
+                    <button class="btn disconnect" onclick="disconnectMQTT()" style="display: none;" id="disconnectBtn">Disconnect</button>
+                </div>
             </div>
         </div>
 
@@ -1167,6 +1190,8 @@
                             <div class="card-title">24-Hour Consumption Pattern</div>
                         </div>
                         <canvas id="dailyChart"></canvas>
+                        <!-- Debug button for testing -->
+                        <button onclick="addTestData()" style="position: absolute; bottom: 10px; right: 10px; padding: 5px 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 5px; color: white; font-size: 0.8em; cursor: pointer;">Add Test Data</button>
                     </div>
 
                     <div class="card chart-container">
@@ -1357,6 +1382,20 @@
             powerFactor: { min: 0.8 }
         };
 
+        // Toggle configuration section
+        function toggleConfigSection() {
+            const configSection = document.getElementById('configSection');
+            const toggleText = document.getElementById('configToggleText');
+            
+            if (configSection.classList.contains('collapsed')) {
+                configSection.classList.remove('collapsed');
+                toggleText.textContent = 'Hide';
+            } else {
+                configSection.classList.add('collapsed');
+                toggleText.textContent = 'Show';
+            }
+        }
+
         // Toggle info box
         function toggleInfoBox() {
             const infoBox = document.getElementById('infoBox');
@@ -1389,12 +1428,26 @@
             
             // Initialize charts if needed
             if (tabName === 'consumption') {
-                if (!dailyChart) {
-                    setTimeout(initializeDailyChart, 100);
-                }
-                if (!dailyCostChart) {
-                    setTimeout(initializeDailyCostChart, 200);
-                }
+                setTimeout(() => {
+                    if (!dailyChart) {
+                        initializeDailyChart();
+                    }
+                    if (!dailyCostChart) {
+                        initializeDailyCostChart();
+                    }
+                    
+                    // Force update charts with current data
+                    setTimeout(() => {
+                        if (dailyChart) {
+                            dailyChart.data.datasets[0].data = [...hourlyConsumptionData];
+                            dailyChart.update();
+                        }
+                        if (dailyCostChart) {
+                            dailyCostChart.data.datasets[0].data = [...hourlyCostData];
+                            dailyCostChart.update();
+                        }
+                    }, 100);
+                }, 100);
             }
 
             // Redraw gauges when returning to real-time tab
@@ -2487,6 +2540,34 @@
                 }
             }, 250);
         });
+
+        // Add test data function for debugging
+        function addTestData() {
+            // Generate random test data for current hour
+            const currentHour = new Date().getHours();
+            const randomConsumption = Math.random() * 2 + 0.5; // 0.5 to 2.5 kWh
+            const randomCost = randomConsumption * 11.27; // Using rate of 11.27
+            
+            // Update arrays
+            hourlyConsumptionData[currentHour] = randomConsumption;
+            hourlyCostData[currentHour] = randomCost;
+            
+            // Update charts if they exist
+            if (dailyChart) {
+                dailyChart.data.datasets[0].data = [...hourlyConsumptionData];
+                dailyChart.update();
+            }
+            
+            if (dailyCostChart) {
+                dailyCostChart.data.datasets[0].data = [...hourlyCostData];
+                dailyCostChart.update();
+            }
+            
+            // Save to storage
+            saveDataToStorage();
+            
+            console.log('Test data added for hour', currentHour, ':', randomConsumption, 'kWh, ₱', randomCost);
+        }
 
         // Initialize on page load
         window.addEventListener('DOMContentLoaded', function() {
