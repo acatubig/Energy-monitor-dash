@@ -331,6 +331,11 @@
             margin-bottom: 30px;
         }
 
+        /* 2-column layout for real-time tab */
+        #realtime-tab .grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
         .card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(10px);
@@ -662,14 +667,31 @@
                 font-size: 1.8em;
             }
 
-            .grid {
+            /* Default grid for real-time tab - 2 columns on mobile */
+            #realtime-tab .grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            /* Single column for other tabs on mobile */
+            #consumption-tab .grid,
+            #billing-tab .grid,
+            #device-tab .grid,
+            #alerts-tab .grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
 
             .chart-container {
-                grid-column: span 1;
+                grid-column: span 2;
                 height: 300px;
+            }
+            
+            /* Chart container in single column layouts */
+            #consumption-tab .chart-container,
+            #billing-tab .chart-container,
+            #device-tab .chart-container {
+                grid-column: span 1;
             }
 
             .card-value {
@@ -687,6 +709,11 @@
 
             .data-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .card {
+                padding: 20px;
+                min-height: 260px;
             }
         }
 
